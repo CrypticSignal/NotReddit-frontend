@@ -1,13 +1,73 @@
-body {
+p {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+#topOfCard {
+  display: flex;
+  justify-content: space-between;
+}
+
+#bottomOfCard {
+  display: flex;
+  justify-content: space-between;
+}
+
+#cardVotes {
+  font-size: smaller;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+#header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#topicsNav {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+#topicsNav a {
+  text-transform: capitalize;
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+}
+.createdAt {
+  text-align: right;
+  margin: 0;
+  font-size: x-small;
+}
+#cardAuthor {
+  font-size: smaller;
+  display: flex;
+  justify-content: flex-start;
+  text-align: left;
+  margin: 0;
+}
+#cardTitle {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+
+/* #cardBody {
+  margin: 10px;
+} */
+
+#cardComments {
+  text-align: left;
+  margin: 0;
+  font-size: x-small;
 }
