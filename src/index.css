@@ -16,14 +16,10 @@
   display: flex;
   justify-content: space-between;
 }
-#voteArrows {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
-.chevron up {
-  color: blue;
+#voteDiv {
+  display: flex;
+  align-items: center;
 }
 
 .cardAuthor {

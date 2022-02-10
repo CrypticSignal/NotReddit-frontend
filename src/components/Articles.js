@@ -75,7 +75,7 @@ const Articles = () => {
           {articles.map((article) => (
             <div className="card-body card mb-2 mt-2" key={article.article_id}>
               <div id="topOfCard">
-                <div id="voteArrows">
+                <div id="voteDiv">
                   <i
                     className="chevron up icon"
                     onClick={() => handleUpvote(article.article_id)}
@@ -84,13 +84,14 @@ const Articles = () => {
                     className="chevron down icon"
                     onClick={() => handleDownvote(article.article_id)}
                   ></i>
+                  <p id="cardVotes">
+                    Votes:{" "}
+                    {articleVoteInfo[article.article_id]
+                      ? articleVoteInfo[article.article_id][3]
+                      : article.votes}
+                  </p>
                 </div>
-                <p id="cardVotes">
-                  Votes:{" "}
-                  {articleVoteInfo[article.article_id]
-                    ? articleVoteInfo[article.article_id][3]
-                    : article.votes}
-                </p>
+
                 <strong className="cardAuthor">{article.author}</strong>
               </div>
               <Link to={`/article/${article.article_id}`} id="cardTitle">

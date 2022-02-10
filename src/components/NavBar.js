@@ -4,24 +4,19 @@ import { getTopics } from "../apiRequests";
 import { capitaliseFirstChar } from "../utils";
 import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
 
-function handleSignInClick() {
-  console.log("Sign in button clicked.");
-}
-
-const TopicSelector = () => {
+const NavBar = (props) => {
   const [topics, setTopics] = useState([]);
 
   useEffect(() => {
     async function fetchTopics() {
       const topics = await getTopics();
-
       setTopics(topics);
     }
     fetchTopics();
   }, []);
 
   return (
-    <Navbar bg="dark" variant="dark">
+    <Navbar id="navbar" bg="dark" variant="dark">
       <Link to={"/"}>
         <Navbar.Brand>Randicles</Navbar.Brand>
       </Link>
@@ -37,8 +32,11 @@ const TopicSelector = () => {
           <Nav.Link href={"/"}>All</Nav.Link>
         </Link>
       </Nav>
+      <span className="navbar-text">
+        Logged in as <strong>{props.user}</strong>
+      </span>
     </Navbar>
   );
 };
 
-export default TopicSelector;
+export default NavBar;
