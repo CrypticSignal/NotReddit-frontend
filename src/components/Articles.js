@@ -62,14 +62,10 @@ const Articles = () => {
       {Object.keys(articleVoteInfo).length > 0 ? (
         <div id="articles-div">
           <h3>{capitaliseFirstChar(topic)} Articles</h3>
+
           <div id="sortMethodDiv">
             <label for="sortMethodDropdown">Sort By: </label>
-
-            <select
-              onChange={handleSortMethodChange}
-              id="sortMethodDropdown"
-              className="ui dropdown"
-            >
+            <select onChange={handleSortMethodChange} id="sortMethodDropdown">
               <option value="created_at">Date Posted</option>
               <option value="comment_count">Number of Comments</option>
               <option value="votes">Votes</option>
@@ -77,7 +73,7 @@ const Articles = () => {
           </div>
 
           {articles.map((article) => (
-            <div className="card-body card m-2" key={article.article_id}>
+            <div className="card-body card mb-2 mt-2" key={article.article_id}>
               <div id="topOfCard">
                 <div id="voteArrows">
                   <i
