@@ -1,17 +1,62 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getArticleComments, getSingleArticle, submitComment, deleteComment } from "../apiRequests";
+import {
+  getArticleComments,
+  getSingleArticle,
+  submitComment,
+  deleteComment,
+  updateCommentVotes,
+} from "../apiRequests";
 import Button from "react-bootstrap/Button";
 import { showAlert } from "../utils";
 
 const SingleArticle = (props) => {
   const [article, setArticle] = useState({});
   const [comments, setComments] = useState([]);
+  const [commentVotesInfo, setCommentVotesInfo] = useState({});
   const [newComment, setNewComment] = useState("");
   const [commentAdded, setCommentAdded] = useState({});
   const [deletedCommentID, setDeletedCommentID] = useState("");
+
   const { articleID } = useParams();
 
+  const handleUpvote = (commentID) => {
+    const originalNumVotes = commentVotesInfo[commentID][0];
+    if (commentVotesInfo[commentID][1]) return;
+    const newObject = { ...commentVotesInfo };
+    newObject[commentID] = [originalNumVotes, true, false, originalNumVotes + 1];
+    setCommentVotesInfo(newObject);
+    const delta = commentVotesInfo[commentID][3] < originalNumVotes ? 2 : 1;
+    updateCommentVotes(commentID, delta);
+  };
+
+  const handleDownvote = (commentID) => {
+    const originalNumVotes = commentVotesInfo[commentID][0];
+    if (commentVotesInfo[commentID][2]) return;
+    const newObject = { ...commentVotesInfo };
+    newObject[commentID] = [originalNumVotes, false, true, originalNumVotes - 1];
+    setCommentVotesInfo(newObject);
+    const delta = commentVotesInfo[commentID][3] > originalNumVotes ? -2 : -1;
+    updateCommentVotes(commentID, delta);
+  };
+
+  // Fetch the article's comments.
+  useEffect(() => {
+    const commentIDToVotesInfo = {};
+    async function fetchArticleComments() {
+      const comments = await getArticleComments(articleID);
+      setComments(comments.reverse());
+      comments.forEach((comment) => {
+        // The value is in the format
+        // [Original num of votes, upvoted?, downvoted? new number of votes]
+        commentIDToVotesInfo[comment.comment_id] = [comment.votes, false, false, comment.votes];
+      });
+      setCommentVotesInfo(commentIDToVotesInfo);
+    }
+    fetchArticleComments();
+  }, [articleID, commentAdded, deletedCommentID]);
+
+  // Fetch an article by its ID.
   useEffect(() => {
     async function fetchSingleArticle() {
       const singleArticle = await getSingleArticle(articleID);
@@ -19,14 +64,6 @@ const SingleArticle = (props) => {
     }
     fetchSingleArticle();
   }, [articleID]);
-
-  useEffect(() => {
-    async function fetchArticleComments() {
-      const comments = await getArticleComments(articleID);
-      setComments(comments.reverse());
-    }
-    fetchArticleComments();
-  }, [articleID, commentAdded, deletedCommentID]);
 
   const handleCommentInput = (e) => {
     setNewComment(e.target.value);
@@ -83,7 +120,7 @@ const SingleArticle = (props) => {
         <div className="card-body card mb-2" key={comment.comment_id}>
           <div id="topOfCard">
             <strong className="cardAuthor">{comment.author}</strong>
-            <p id="cardVotes">Votes: {comment.votes}</p>
+
             {comment.author === props.user ? (
               <Button
                 className="btn btn-primary btn-sm"
@@ -92,6 +129,20 @@ const SingleArticle = (props) => {
                 Delete
               </Button>
             ) : null}
+            <div id="votesDiv">
+              <i className="chevron up icon" onClick={() => handleUpvote(comment.comment_id)}></i>
+              <i
+                className="chevron down icon"
+                onClick={() => handleDownvote(comment.comment_id)}
+              ></i>
+
+              <p id="cardVotes">
+                Votes:{" "}
+                {commentVotesInfo[comment.comment_id]
+                  ? commentVotesInfo[comment.comment_id][3]
+                  : comment.votes}
+              </p>
+            </div>
           </div>
           <hr />
           <i id="cardBody">{comment.body}</i>
