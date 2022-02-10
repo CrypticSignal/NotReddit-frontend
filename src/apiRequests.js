@@ -32,8 +32,7 @@ export const getArticleComments = async (articleID) => {
 };
 
 export const updateArticleVotes = async (articleID, delta) => {
-  const res = await api.patch(`/articles/${articleID}`, { inc_votes: delta });
-  console.log(res);
+  await api.patch(`/articles/${articleID}`, { inc_votes: delta });
 };
 
 export const submitComment = async (articleID, comment) => {
@@ -47,4 +46,8 @@ export const submitComment = async (articleID, comment) => {
 export const deleteComment = async (commentID) => {
   await api.delete(`/comments/${commentID}`);
   return "Comment deleted.";
+};
+
+export const updateCommentVotes = async (commentID, delta) => {
+  await api.patch(`/comments/${commentID}`, { inc_votes: delta });
 };
