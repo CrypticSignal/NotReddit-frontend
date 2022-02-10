@@ -13,7 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Articles />}></Route>
         <Route path="/topics/:topic" element={<Articles />}></Route>
-        <Route path="/article/:articleID" element={<SingleArticle />}></Route>
+        <Route path="/article/:articleID" element={<SingleArticle user={loggedInUser} />}></Route>
       </Routes>
     </Container>
   );
