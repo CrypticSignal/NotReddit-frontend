@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getTopics } from "../apiRequests";
 import { capitaliseFirstChar } from "../utils";
-import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 
 const NavBar = (props) => {
   const [topics, setTopics] = useState([]);
