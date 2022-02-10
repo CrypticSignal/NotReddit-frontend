@@ -1,27 +1,48 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getSingleArticle } from "../apiRequests";
+import { getArticleComments, getSingleArticle } from "../apiRequests";
 
 // topics/coding
 
 const SingleArticle = () => {
   const [article, setArticle] = useState({});
+  const [comments, setComments] = useState([]);
   const { articleID } = useParams();
 
   useEffect(async () => {
     const singleArticle = await getSingleArticle(articleID);
+    const comments = await getArticleComments(articleID);
+    setComments(comments);
     setArticle(singleArticle);
   }, [articleID]);
 
   return (
     <div>
-      {article ? (
-        <div id="SingleArticle">
-          <h1>{article.title}</h1>
-          <i>By {article.author}</i>
-          <p>{article.body}</p>
+      <div id="articleSubheading">
+        <h3>{article.title}</h3>
+        <br />
+        <i>
+          By {article.author} at {article.created_at}
+        </i>
+      </div>
+      <hr />
+      <p>{article.body}</p>
+
+      <hr />
+      <h4>Comments:</h4>
+      {comments.map((comment) => (
+        <div className="card-body card m-2" key={comment.comment_id}>
+          <div id="topOfCard">
+            <strong className="cardAuthor">{comment.author}</strong>
+            <p id="cardVotes">Votes: {comment.votes}</p>
+          </div>
+          <hr />
+          <i id="cardBody">{comment.body}</i>
+          <div id="bottomOfCard">
+            <i className="createdAt">{comment.created_at}</i>
+          </div>
         </div>
-      ) : null}
+      ))}
     </div>
   );
 };
