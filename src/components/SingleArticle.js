@@ -22,7 +22,7 @@ const SingleArticle = () => {
         <h3>{article.title}</h3>
         <br />
         <i>
-          By {article.author} at {article.created_at}
+          By {article.author} at {new Date(article.created_at).toLocaleString()}
         </i>
       </div>
       <hr />
@@ -39,7 +39,7 @@ const SingleArticle = () => {
           <hr />
           <i id="cardBody">{comment.body}</i>
           <div id="bottomOfCard">
-            <i className="createdAt">{comment.created_at}</i>
+            <i className="createdAt">{new Date(comment.created_at).toLocaleString()}</i>
           </div>
         </div>
       ))}
