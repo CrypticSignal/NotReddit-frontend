@@ -1,3 +1,7 @@
+#navbar {
+  padding: 10px;
+}
+
 #sortMethodDiv {
   display: flex;
   justify-content: right;
