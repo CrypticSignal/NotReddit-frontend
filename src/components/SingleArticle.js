@@ -48,7 +48,10 @@ const SingleArticle = (props) => {
         (comment) => comment.comment_id !== commentAdded.comment_id
       );
 
-      commentsArray.push(commentAdded);
+      if (deletedCommentID !== commentAdded.comment_id) {
+        commentsArray.push(commentAdded);
+      }
+
       setComments(commentsArray.reverse());
 
       const commentIDToVotesInfo = {};
@@ -62,7 +65,7 @@ const SingleArticle = (props) => {
       setCommentVotesInfo(commentIDToVotesInfo);
     }
     fetchArticleComments();
-  }, [articleID, commentAdded, deletedCommentID]);
+  }, [commentAdded, deletedCommentID]);
 
   useEffect(() => {
     // Fetch an article by its ID.
@@ -77,11 +80,17 @@ const SingleArticle = (props) => {
     setNewComment(e.target.value);
   };
 
-  const handleCommentSubmission = async (e) => {
+  const handleCommentSubmission = async () => {
+    if (!props.loggedIn) {
+      showAlert("You must be logged in to post a comment.", "danger");
+      return;
+    }
+
     if (!newComment) {
       showAlert("Trying to submit an empty comment? You silly billy.", "danger");
       return;
     }
+
     const addedComment = await submitComment(props.username, articleID, newComment);
     setCommentAdded(addedComment);
     showAlert("Comment submitted.", "success");
@@ -89,8 +98,8 @@ const SingleArticle = (props) => {
 
   const handleDeleteComment = async (commentID) => {
     await deleteComment(commentID);
-    setDeletedCommentID(commentID);
     showAlert("Comment deleted.", "success");
+    setDeletedCommentID(commentID);
   };
 
   return (
