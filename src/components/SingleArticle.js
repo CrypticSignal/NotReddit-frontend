@@ -40,24 +40,32 @@ const SingleArticle = (props) => {
     updateCommentVotes(commentID, delta);
   };
 
-  // Fetch the article's comments.
   useEffect(() => {
-    const commentIDToVotesInfo = {};
     async function fetchArticleComments() {
-      const comments = await getArticleComments(articleID);
-      setComments(comments.reverse());
-      comments.forEach((comment) => {
-        // The value is in the format
+      let commentsArray = await getArticleComments(articleID);
+
+      commentsArray = commentsArray.filter(
+        (comment) => comment.comment_id !== commentAdded.comment_id
+      );
+
+      commentsArray.push(commentAdded);
+      setComments(commentsArray.reverse());
+
+      const commentIDToVotesInfo = {};
+
+      commentsArray.forEach((comment) => {
+        // The value is in the format:
         // [Original num of votes, upvoted?, downvoted? new number of votes]
         commentIDToVotesInfo[comment.comment_id] = [comment.votes, false, false, comment.votes];
       });
+
       setCommentVotesInfo(commentIDToVotesInfo);
     }
     fetchArticleComments();
   }, [articleID, commentAdded, deletedCommentID]);
 
-  // Fetch an article by its ID.
   useEffect(() => {
+    // Fetch an article by its ID.
     async function fetchSingleArticle() {
       const singleArticle = await getSingleArticle(articleID);
       setArticle(singleArticle);
