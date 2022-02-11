@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getTopics, getUsernames } from "../apiRequests";
 import { capitaliseFirstChar } from "../utils";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 const NavBar = (props) => {
-  const [loggedIn, setLoggedIn] = useState(false);
-
   const [topics, setTopics] = useState([]);
   const [usernames, setUsernames] = useState([]);
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     async function fetchTopics() {
@@ -23,16 +23,17 @@ const NavBar = (props) => {
   }, []);
 
   const handleUserSelected = (username) => {
-    setLoggedIn(true);
+    navigate(`/profile/${username}`, { replace: true });
+    props.setLoggedIn(true);
     props.setLoggedInUser(username);
   };
 
   const logOut = () => {
-    setLoggedIn(false);
+    props.setLoggedIn(false);
   };
 
   return (
-    <Navbar id="navbar" bg="dark" variant="dark" expand="sm">
+    <Navbar id="navbar" bg="dark" variant="dark" expand="md">
       <Link to={"/"}>
         <Navbar.Brand>Randicles</Navbar.Brand>
       </Link>
@@ -53,27 +54,35 @@ const NavBar = (props) => {
             <Nav.Link href={"/"}>All</Nav.Link>
           </Link>
         </Nav>
-        {!loggedIn ? (
+        {!props.loggedIn ? (
           <NavDropdown title="Login as" id="basic-nav-dropdown">
             {usernames.map((username) => {
               return (
-                <NavDropdown.Item onClick={() => handleUserSelected(username)}>
+                <NavDropdown.Item key={username} onClick={() => handleUserSelected(username)}>
                   {username}
                 </NavDropdown.Item>
               );
             })}
           </NavDropdown>
         ) : null}
-        {loggedIn ? (
+        {props.loggedIn ? (
           <div id="loggedInLogOut">
             <p id="loggedInAs" className="navbar-text">
               Logged in as <strong>{props.loggedInUser}</strong>
             </p>
+            <Link to={`/profile/${props.loggedInUser}`}>
+              <p id="viewProfile" className="navbar-text">
+                View Profile
+              </p>
+            </Link>
+
             <p className="navbar-text" id="logOut" onClick={logOut}>
               Log out
             </p>
           </div>
-        ) : null}
+        ) : (
+          <p>Loading...</p>
+        )}
       </Navbar.Collapse>
     </Navbar>
   );

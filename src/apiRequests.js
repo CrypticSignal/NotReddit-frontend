@@ -56,3 +56,8 @@ export const getUsernames = async () => {
   const res = await api.get("/users");
   return res.data.usernames.map((usernameObject) => usernameObject.username);
 };
+
+export const getUserDetails = async (username) => {
+  const res = await api.get(`/users/${username}`);
+  return res.data.user;
+};

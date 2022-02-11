@@ -1,9 +1,25 @@
+#profileCard {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+#viewProfile {
+  margin-right: 10px;
+}
+
 p {
   margin: 0;
 }
 
 h3 {
   margin: 0;
+}
+
+/* Original dimensions: 264x472 */
+img {
+  width: 132px;
+  height: 236px;
 }
 
 #loggedInLogOut {
