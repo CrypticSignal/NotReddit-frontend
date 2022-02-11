@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar";
 import Articles from "./components/Articles";
 import SingleArticle from "./components/SingleArticle";
 import ViewProfile from "./components/ViewProfile";
+import ErrorPage from "./components/ErrorPage";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -22,12 +23,13 @@ function App() {
         <Route path="/topics/:topic" element={<Articles />}></Route>
         <Route
           path="/article/:articleID"
-          element={<SingleArticle username={loggedInUser} />}
+          element={<SingleArticle loggedIn={loggedIn} username={loggedInUser} />}
         ></Route>
         <Route
           path="/profile/:username"
           element={<ViewProfile loggedIn={loggedIn} username={loggedInUser} />}
         ></Route>
+        <Route path="*" element={<ErrorPage />}></Route>
       </Routes>
     </Container>
   );
