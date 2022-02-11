@@ -35,7 +35,7 @@ const NavBar = (props) => {
   return (
     <Navbar id="navbar" bg="dark" variant="dark" expand="md">
       <Link to={"/"}>
-        <Navbar.Brand>Randicles</Navbar.Brand>
+        <Navbar.Brand>NotReddit</Navbar.Brand>
       </Link>
 
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
