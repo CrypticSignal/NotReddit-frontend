@@ -74,7 +74,7 @@ const SingleArticle = (props) => {
       showAlert("Trying to submit an empty comment? You silly billy.", "danger");
       return;
     }
-    const addedComment = await submitComment(articleID, newComment);
+    const addedComment = await submitComment(props.user, articleID, newComment);
     setCommentAdded(addedComment);
     showAlert("Comment submitted.", "success");
   };

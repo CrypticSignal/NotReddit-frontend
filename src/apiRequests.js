@@ -35,9 +35,9 @@ export const updateArticleVotes = async (articleID, delta) => {
   await api.patch(`/articles/${articleID}`, { inc_votes: delta });
 };
 
-export const submitComment = async (articleID, comment) => {
+export const submitComment = async (username, articleID, comment) => {
   const res = await api.post(`/articles/${articleID}/comments`, {
-    username: "jessjelly",
+    username: username,
     body: comment,
   });
   return res.data.comment[0];
@@ -50,4 +50,9 @@ export const deleteComment = async (commentID) => {
 
 export const updateCommentVotes = async (commentID, delta) => {
   await api.patch(`/comments/${commentID}`, { inc_votes: delta });
+};
+
+export const getUsernames = async () => {
+  const res = await api.get("/users");
+  return res.data.usernames.map((usernameObject) => usernameObject.username);
 };

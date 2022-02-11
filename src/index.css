@@ -1,3 +1,23 @@
+p {
+  margin: 0;
+}
+
+h3 {
+  margin: 0;
+}
+
+#loggedInLogOut {
+  display: flex;
+}
+
+#loggedInAs {
+  margin-right: 10px;
+}
+
+#logOut {
+  cursor: pointer;
+}
+
 #navbar {
   padding: 10px;
 }
