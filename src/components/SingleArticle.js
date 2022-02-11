@@ -74,7 +74,7 @@ const SingleArticle = (props) => {
       showAlert("Trying to submit an empty comment? You silly billy.", "danger");
       return;
     }
-    const addedComment = await submitComment(props.user, articleID, newComment);
+    const addedComment = await submitComment(props.username, articleID, newComment);
     setCommentAdded(addedComment);
     showAlert("Comment submitted.", "success");
   };
@@ -99,11 +99,11 @@ const SingleArticle = (props) => {
 
       <hr />
       <div id="submitCommentDiv" className="form-group m-2">
-        <label for="exampleFormControlTextarea1">Submit a comment:</label>
+        <label htmlFor="exampleFormControlTextarea1">Submit a comment:</label>
         <textarea
           onInput={handleCommentInput}
           value={newComment}
-          class="form-control"
+          className="form-control"
           id="exampleFormControlTextarea1"
           rows="3"
         ></textarea>
@@ -121,7 +121,7 @@ const SingleArticle = (props) => {
           <div id="topOfCard">
             <strong className="cardAuthor">{comment.author}</strong>
 
-            {comment.author === props.user ? (
+            {comment.author === props.username ? (
               <Button
                 className="btn btn-primary btn-sm"
                 onClick={() => handleDeleteComment(comment.comment_id)}
