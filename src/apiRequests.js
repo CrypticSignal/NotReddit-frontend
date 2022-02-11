@@ -1,12 +1,11 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://randicles.herokuapp.com/api",
+  baseURL: "https://notreddit-backend.herokuapp.com/api",
 });
 
 export const getArticles = async (topic, sortMethod) => {
   let requestURL = "/articles";
-  // if (topic && topic !== "all") requestURL += `?topic=${topic}`;
   const res = await api.get(requestURL, {
     params: {
       topic: topic && topic !== "all" ? topic : null,
