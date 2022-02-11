@@ -23,7 +23,9 @@ const NavBar = (props) => {
   }, []);
 
   const handleUserSelected = (username) => {
-    navigate(`/profile/${username}`, { replace: true });
+    if (window.location.pathname.includes("profile")) {
+      navigate(`/profile/${username}`, { replace: true });
+    }
     props.setLoggedIn(true);
     props.setLoggedInUser(username);
   };
