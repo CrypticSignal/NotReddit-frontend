@@ -64,7 +64,7 @@ const Articles = () => {
           <h3>{capitaliseFirstChar(topic)} Articles</h3>
 
           <div id="sortMethodDiv">
-            <label for="sortMethodDropdown">Sort By: </label>
+            <label htmlFor="sortMethodDropdown">Sort By: </label>
             <select onChange={handleSortMethodChange} id="sortMethodDropdown">
               <option value="created_at">Date Posted</option>
               <option value="comment_count">Number of Comments</option>
