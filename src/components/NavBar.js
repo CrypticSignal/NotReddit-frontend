@@ -1,13 +1,24 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { LoginRelatedContext } from "../contexts/LoginRelated";
 import { Link, useNavigate } from "react-router-dom";
 import { getTopics, getUsernames } from "../apiRequests";
 import { capitaliseFirstChar, showAlert } from "../utils";
 import { Button, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { signInWithGoogle, googleAccountSignOut } from "../firebase";
 
-const NavBar = (props) => {
+const NavBar = () => {
   const [topics, setTopics] = useState([]);
   const [usernames, setUsernames] = useState([]);
+
+  const {
+    loggedIn,
+    setLoggedIn,
+    loggedInWithGoogle,
+    setLoggedInWithGoogle,
+    setGoogleAccountDetails,
+    loggedInUser,
+    setLoggedInUser,
+  } = useContext(LoginRelatedContext);
 
   let navigate = useNavigate();
 
@@ -29,26 +40,26 @@ const NavBar = (props) => {
       showAlert(result.err, "danger");
       return;
     }
-    props.setLoggedIn(true);
-    props.setLoggedInWithGoogle(true);
-    props.setLoggedInUser(result.displayName);
-    props.setGoogleAccountDetails(result);
+    setLoggedIn(true);
+    setLoggedInWithGoogle(true);
+    setLoggedInUser(result.userData.displayName.trim().split(" ")[0]);
+    setGoogleAccountDetails(result.userData);
   };
 
   const handleUserSelected = (username) => {
     if (window.location.pathname.includes("profile")) {
       navigate(`/profile/${username}`, { replace: true });
     }
-    props.setLoggedIn(true);
-    props.setLoggedInUser(username);
+    setLoggedIn(true);
+    setLoggedInUser(username);
   };
 
   const logOut = async () => {
     localStorage.clear();
 
-    if (props.loggedInWithGoogle) {
-      props.setLoggedIn(false);
-      props.setLoggedInWithGoogle(false);
+    if (loggedInWithGoogle) {
+      setLoggedIn(false);
+      setLoggedInWithGoogle(false);
       return;
     }
 
@@ -58,7 +69,7 @@ const NavBar = (props) => {
       showAlert(result.error, "danger");
       return;
     }
-    props.setLoggedIn(false);
+    setLoggedIn(false);
   };
 
   return (
@@ -84,7 +95,7 @@ const NavBar = (props) => {
               <Nav.Link href={"/"}>All</Nav.Link>
             </Link>
           </Nav>
-          {!props.loggedIn ? (
+          {!loggedIn ? (
             <div id="logInSignInDiv">
               <NavDropdown title="Login as" id="basic-nav-dropdown">
                 {usernames.map((username) => {
@@ -100,12 +111,12 @@ const NavBar = (props) => {
               </Button>
             </div>
           ) : null}
-          {props.loggedIn ? (
+          {loggedIn ? (
             <div id="loggedInLogOut">
               <p id="loggedInAs" className="navbar-text">
-                Logged in as <strong>{props.loggedInUser}</strong>
+                Logged in as <strong>{loggedInUser}</strong>
               </p>
-              <Link to={`/profile/${props.loggedInUser}`}>
+              <Link to={`/profile/${loggedInUser}`}>
                 <p id="viewProfile" className="navbar-text">
                   View Profile
                 </p>

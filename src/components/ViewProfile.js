@@ -1,20 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { LoginRelatedContext } from "../contexts/LoginRelated";
 import { useParams } from "react-router-dom";
 import { getUserDetails } from "../apiRequests";
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-const ViewProfile = (props) => {
+const ViewProfile = () => {
   const [username, setUsername] = useState("");
   const [userDetails, setUserDetails] = useState({});
-  const [photoURL, setPhotoURL] = useState("");
+
+  const { loggedIn, loggedInWithGoogle, googleAccountDetails } = useContext(LoginRelatedContext);
 
   const params = useParams();
-
-  // useEffect(() => {
-  //   console.log(props.googleAccountDetails.photoURL);
-  //   setPhotoURL(props.googleAccountDetails.photoURL);
-  // }, [props.googleAccountDetails.photoURL]);
 
   useEffect(() => {
     setUsername(params.username);
@@ -30,15 +26,15 @@ const ViewProfile = (props) => {
 
   return (
     <>
-      {props.loggedIn ? (
+      {loggedIn ? (
         <>
-          {props.loggedInWithGoogle ? (
+          {loggedInWithGoogle ? (
             <div className="profileCard">
               <Card style={{ width: "18rem" }} className="mt-2">
-                <Card.Img variant="top" src={props.googleAccountDetails.photoURL} />
+                <Card.Img variant="top" src={googleAccountDetails.photoURL} />
                 <Card.Body>
-                  <Card.Title>{props.googleAccountDetails.displayName}</Card.Title>
-                  <i>{props.googleAccountDetails.email}</i>
+                  <Card.Title>{googleAccountDetails.displayName}</Card.Title>
+                  <i>{googleAccountDetails.email}</i>
                 </Card.Body>
               </Card>
             </div>

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { LoginRelatedContext } from "../contexts/LoginRelated";
 import { useParams } from "react-router-dom";
 import {
   getArticleComments,
@@ -10,13 +11,15 @@ import {
 import Button from "react-bootstrap/Button";
 import { showAlert } from "../utils";
 
-const SingleArticle = (props) => {
+const SingleArticle = () => {
   const [article, setArticle] = useState({});
   const [comments, setComments] = useState([]);
   const [commentVotesInfo, setCommentVotesInfo] = useState({});
   const [newComment, setNewComment] = useState("");
   const [commentAdded, setCommentAdded] = useState({});
   const [deletedCommentID, setDeletedCommentID] = useState("");
+
+  const { loggedIn, loggedInUser } = useContext(LoginRelatedContext);
 
   const { articleID } = useParams();
 
@@ -65,7 +68,7 @@ const SingleArticle = (props) => {
       setCommentVotesInfo(commentIDToVotesInfo);
     }
     fetchArticleComments();
-  }, [commentAdded, deletedCommentID]);
+  }, [articleID, commentAdded, deletedCommentID]);
 
   useEffect(() => {
     // Fetch an article by its ID.
@@ -81,7 +84,7 @@ const SingleArticle = (props) => {
   };
 
   const handleCommentSubmission = async () => {
-    if (!props.loggedIn) {
+    if (!loggedIn) {
       showAlert("You must be logged in to post a comment.", "danger");
       return;
     }
@@ -91,7 +94,7 @@ const SingleArticle = (props) => {
       return;
     }
 
-    const addedComment = await submitComment(props.username, articleID, newComment);
+    const addedComment = await submitComment(loggedInUser, articleID, newComment);
     setCommentAdded(addedComment);
     showAlert("Comment submitted.", "success");
   };
@@ -138,7 +141,7 @@ const SingleArticle = (props) => {
           <div id="topOfCard">
             <strong className="cardAuthor">{comment.author}</strong>
 
-            {comment.author === props.username ? (
+            {comment.author === loggedInUser ? (
               <Button
                 className="btn btn-primary btn-sm"
                 onClick={() => handleDeleteComment(comment.comment_id)}

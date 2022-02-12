@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { LoginRelatedContext } from "./contexts/LoginRelated";
 import { Routes, Route } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import NavBar from "./components/NavBar";
@@ -19,41 +20,33 @@ function App() {
       setLoggedInWithGoogle(true);
       const accountDetails = JSON.parse(localStorage.getItem("googleAccountDetails"));
       setGoogleAccountDetails(accountDetails);
-      setLoggedInUser(accountDetails.displayName);
+      setLoggedInUser(accountDetails.displayName.trim().split(" ")[0]);
     }
   }, []);
 
   return (
     <Container>
-      <NavBar
-        loggedIn={loggedIn}
-        setLoggedIn={setLoggedIn}
-        loggedInWithGoogle={loggedInWithGoogle}
-        setLoggedInWithGoogle={setLoggedInWithGoogle}
-        setGoogleAccountDetails={setGoogleAccountDetails}
-        loggedInUser={loggedInUser}
-        setLoggedInUser={setLoggedInUser}
-      />
-      <Routes>
-        <Route path="/" element={<Articles />}></Route>
-        <Route path="/topics/:topic" element={<Articles />}></Route>
-        <Route
-          path="/article/:articleID"
-          element={<SingleArticle loggedIn={loggedIn} username={loggedInUser} />}
-        ></Route>
-        <Route
-          path="/profile/:username"
-          element={
-            <ViewProfile
-              loggedInWithGoogle={loggedInWithGoogle}
-              googleAccountDetails={googleAccountDetails}
-              loggedIn={loggedIn}
-              username={loggedInUser}
-            />
-          }
-        ></Route>
-        <Route path="*" element={<ErrorPage />}></Route>
-      </Routes>
+      <LoginRelatedContext.Provider
+        value={{
+          loggedIn,
+          setLoggedIn,
+          loggedInWithGoogle,
+          setLoggedInWithGoogle,
+          googleAccountDetails,
+          setGoogleAccountDetails,
+          loggedInUser,
+          setLoggedInUser,
+        }}
+      >
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Articles />}></Route>
+          <Route path="/topics/:topic" element={<Articles />}></Route>
+          <Route path="/article/:articleID" element={<SingleArticle />}></Route>
+          <Route path="/profile/:username" element={<ViewProfile />}></Route>
+          <Route path="*" element={<ErrorPage />}></Route>
+        </Routes>
+      </LoginRelatedContext.Provider>
     </Container>
   );
 }
