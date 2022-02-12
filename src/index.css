@@ -1,4 +1,8 @@
-#profileCard {
+#logInSignInDiv {
+  display: flex;
+}
+
+.profileCard {
   display: flex;
   justify-content: center;
   text-align: center;
