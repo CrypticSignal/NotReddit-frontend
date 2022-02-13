@@ -1,7 +1,7 @@
 {
   "name": "cs-news-frontend",
   "version": "0.1.0",
-  "homepage": "https://crypticsignal.github.io/NotReddit-frontend",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",
