@@ -21,7 +21,9 @@ const ViewProfile = () => {
       const userDetails = await getUserDetails(username);
       setUserDetails(userDetails);
     }
-    fetchUserDetails();
+    if (!loggedInWithGoogle) {
+      fetchUserDetails();
+    }
   }, [username]);
 
   return (
@@ -34,7 +36,7 @@ const ViewProfile = () => {
                 <Card.Img variant="top" src={googleAccountDetails.photoURL} />
                 <Card.Body>
                   <Card.Title>{googleAccountDetails.displayName}</Card.Title>
-                  <i>{googleAccountDetails.email}</i>
+                  <i>{username}</i>
                 </Card.Body>
               </Card>
             </div>

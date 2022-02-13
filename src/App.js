@@ -12,7 +12,8 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loggedInWithGoogle, setLoggedInWithGoogle] = useState(false);
   const [googleAccountDetails, setGoogleAccountDetails] = useState({});
-  const [loggedInUser, setLoggedInUser] = useState("");
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("loggedInWithGoogle")) {
@@ -20,7 +21,7 @@ function App() {
       setLoggedInWithGoogle(true);
       const accountDetails = JSON.parse(localStorage.getItem("googleAccountDetails"));
       setGoogleAccountDetails(accountDetails);
-      setLoggedInUser(accountDetails.displayName.trim().split(" ")[0]);
+      setName(accountDetails.displayName.trim().split(" ")[0]);
     }
   }, []);
 
@@ -34,8 +35,10 @@ function App() {
           setLoggedInWithGoogle,
           googleAccountDetails,
           setGoogleAccountDetails,
-          loggedInUser,
-          setLoggedInUser,
+          name,
+          setName,
+          username,
+          setUsername,
         }}
       >
         <NavBar />

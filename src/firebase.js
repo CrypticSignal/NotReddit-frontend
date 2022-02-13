@@ -17,8 +17,7 @@ const provider = new GoogleAuthProvider();
 export const signInWithGoogle = async () => {
   try {
     const response = await signInWithPopup(auth, provider);
-    localStorage.setItem("loggedInWithGoogle", true);
-    localStorage.setItem("googleAccountDetails", JSON.stringify(response.user));
+
     return {
       successful: true,
       userData: response.user,

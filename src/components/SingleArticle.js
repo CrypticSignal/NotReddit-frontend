@@ -19,7 +19,7 @@ const SingleArticle = () => {
   const [commentAdded, setCommentAdded] = useState({});
   const [deletedCommentID, setDeletedCommentID] = useState("");
 
-  const { loggedIn, loggedInUser } = useContext(LoginRelatedContext);
+  const { loggedIn, username } = useContext(LoginRelatedContext);
 
   const { articleID } = useParams();
 
@@ -94,7 +94,7 @@ const SingleArticle = () => {
       return;
     }
 
-    const addedComment = await submitComment(loggedInUser, articleID, newComment);
+    const addedComment = await submitComment(username, articleID, newComment);
     setCommentAdded(addedComment);
     showAlert("Comment submitted.", "success");
   };
@@ -119,7 +119,9 @@ const SingleArticle = () => {
 
       <hr />
       <div id="submitCommentDiv" className="form-group m-2">
-        <label htmlFor="exampleFormControlTextarea1">Submit a comment:</label>
+        <label htmlFor="exampleFormControlTextarea1">
+          Comment as <strong>{username}</strong>:
+        </label>
         <textarea
           onInput={handleCommentInput}
           value={newComment}
@@ -141,7 +143,7 @@ const SingleArticle = () => {
           <div id="topOfCard">
             <strong className="cardAuthor">{comment.author}</strong>
 
-            {comment.author === loggedInUser ? (
+            {comment.author === username ? (
               <Button
                 className="btn btn-primary btn-sm"
                 onClick={() => handleDeleteComment(comment.comment_id)}
