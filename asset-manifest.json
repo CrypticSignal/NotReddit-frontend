@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/NotReddit-frontend/static/css/main.ca7e9c43.css",
-    "main.js": "/NotReddit-frontend/static/js/main.a3e069f7.js",
+    "main.js": "/NotReddit-frontend/static/js/main.ba3cf685.js",
     "index.html": "/NotReddit-frontend/index.html",
     "main.ca7e9c43.css.map": "/NotReddit-frontend/static/css/main.ca7e9c43.css.map",
-    "main.a3e069f7.js.map": "/NotReddit-frontend/static/js/main.a3e069f7.js.map"
+    "main.ba3cf685.js.map": "/NotReddit-frontend/static/js/main.ba3cf685.js.map"
   },
   "entrypoints": [
     "static/css/main.ca7e9c43.css",
-    "static/js/main.a3e069f7.js"
+    "static/js/main.ba3cf685.js"
   ]
 }
