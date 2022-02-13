@@ -17,7 +17,7 @@ function App() {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("loggedInWithGoogle")) {
+    if (JSON.parse(localStorage.getItem("loggedInWithGoogle"))) {
       setLoggedIn(true);
       setLoggedInWithGoogle(true);
       const accountDetails = JSON.parse(localStorage.getItem("googleAccountDetails"));

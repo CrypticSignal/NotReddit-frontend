@@ -62,6 +62,10 @@ const NavBar = () => {
         return;
       }
       showAlert("Unable to create a user. Please try again later.", "danger");
+      // The user has previously logged in using Google.
+      // Use the username that was generated back then.
+    } else {
+      setUsername(localStorage.getItem("username"));
     }
   };
 
