@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/notreddit-frontend/static/css/main.ca7e9c43.css",
-    "main.js": "/notreddit-frontend/static/js/main.a3e069f7.js",
-    "index.html": "/notreddit-frontend/index.html",
-    "main.ca7e9c43.css.map": "/notreddit-frontend/static/css/main.ca7e9c43.css.map",
-    "main.a3e069f7.js.map": "/notreddit-frontend/static/js/main.a3e069f7.js.map"
+    "main.css": "/static/css/main.ca7e9c43.css",
+    "main.js": "/static/js/main.a3e069f7.js",
+    "index.html": "/index.html",
+    "main.ca7e9c43.css.map": "/static/css/main.ca7e9c43.css.map",
+    "main.a3e069f7.js.map": "/static/js/main.a3e069f7.js.map"
   },
   "entrypoints": [
     "static/css/main.ca7e9c43.css",
