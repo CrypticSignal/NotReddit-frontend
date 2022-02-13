@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { LoginRelatedContext } from "../contexts/LoginRelated";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getArticleComments,
   getSingleArticle,
@@ -9,7 +9,7 @@ import {
   updateCommentVotes,
 } from "../apiRequests";
 import Button from "react-bootstrap/Button";
-import { showAlert } from "../utils";
+import { handleDeleteArticle, showAlert } from "../utils";
 
 const SingleArticle = () => {
   const [article, setArticle] = useState({});
@@ -20,8 +20,8 @@ const SingleArticle = () => {
   const [deletedCommentID, setDeletedCommentID] = useState("");
 
   const { loggedIn, username } = useContext(LoginRelatedContext);
-
   const { articleID } = useParams();
+  let navigate = useNavigate();
 
   const handleUpvote = (commentID) => {
     const originalNumVotes = commentVotesInfo[commentID][0];
@@ -118,6 +118,22 @@ const SingleArticle = () => {
       <p>{article.body}</p>
 
       <hr />
+
+      {article.author === username ? (
+        <div className="center">
+          <Button
+            onClick={async () => {
+              await handleDeleteArticle(articleID);
+              navigate("/");
+              showAlert("Article deleted.", "success");
+            }}
+            className="btn-sm"
+          >
+            Delete Article
+          </Button>
+        </div>
+      ) : null}
+
       <div id="submitCommentDiv" className="form-group m-2">
         <label htmlFor="exampleFormControlTextarea1">
           Comment as <strong>{username}</strong>:

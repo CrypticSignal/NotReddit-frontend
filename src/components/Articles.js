@@ -1,13 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { LoginRelatedContext } from "../contexts/LoginRelated";
 import { getArticles, updateArticleVotes } from "../apiRequests";
-import { Link, useParams } from "react-router-dom";
-import { capitaliseFirstChar } from "../utils";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { handleDeleteArticle, capitaliseFirstChar } from "../utils";
+import Button from "react-bootstrap/Button";
 
 const Articles = () => {
   const [articles, setArticles] = useState([]);
   const [articleVoteInfo, setArticleVoteInfo] = useState({});
   const [sortMethod, setSortMethod] = useState("created_at");
+  const [deletedArticleID, setDeletedArticleID] = useState("");
 
+  const { loggedIn, username } = useContext(LoginRelatedContext);
+  let navigate = useNavigate();
   const params = useParams();
 
   let topic;
@@ -53,7 +58,7 @@ const Articles = () => {
     if (topic) {
       fetchArticles();
     }
-  }, [topic, sortMethod]);
+  }, [deletedArticleID, topic, sortMethod]);
 
   const handleSortMethodChange = (e) => setSortMethod(e.target.value);
 
@@ -63,13 +68,21 @@ const Articles = () => {
         <div id="articles-div">
           <h3>{capitaliseFirstChar(topic)} Articles</h3>
 
-          <div id="sortMethodDiv">
-            <label htmlFor="sortMethodDropdown">Sort By: </label>
-            <select onChange={handleSortMethodChange} id="sortMethodDropdown">
-              <option value="created_at">Date Posted</option>
-              <option value="comment_count">Number of Comments</option>
-              <option value="votes">Votes</option>
-            </select>
+          <div id="postArticleSortMethod">
+            {loggedIn ? (
+              <Button onClick={() => navigate("/post-article")}>Post Article</Button>
+            ) : null}
+
+            <div id="sortMethodDiv">
+              <label id="sortByLabel" htmlFor="sortMethodDropdown">
+                Sort By:
+              </label>
+              <select onChange={handleSortMethodChange} id="sortMethodDropdown">
+                <option value="created_at">Date Posted</option>
+                <option value="comment_count">Number of Comments</option>
+                <option value="votes">Votes</option>
+              </select>
+            </div>
           </div>
 
           {articles.map((article) => (
@@ -100,6 +113,17 @@ const Articles = () => {
               <p id="cardBody">{article.body.substring(0, 200)}...</p>
               <div id="bottomOfCard">
                 <p id="cardComments">{article.comment_count} comments</p>
+                {article.author === username ? (
+                  <Button
+                    onClick={() => {
+                      handleDeleteArticle(article.article_id, setDeletedArticleID);
+                    }}
+                    className="btn-sm mt-2"
+                  >
+                    Delete
+                  </Button>
+                ) : null}
+
                 <i className="createdAt">{new Date(article.created_at).toLocaleString()}</i>
               </div>
             </div>

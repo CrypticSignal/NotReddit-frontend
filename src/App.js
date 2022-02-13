@@ -7,6 +7,7 @@ import Articles from "./components/Articles";
 import SingleArticle from "./components/SingleArticle";
 import ViewProfile from "./components/ViewProfile";
 import ErrorPage from "./components/ErrorPage";
+import PostArticle from "./components/PostArticle";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -22,6 +23,7 @@ function App() {
       const accountDetails = JSON.parse(localStorage.getItem("googleAccountDetails"));
       setGoogleAccountDetails(accountDetails);
       setName(accountDetails.displayName.trim().split(" ")[0]);
+      setUsername(localStorage.getItem("username"));
     }
   }, []);
 
@@ -46,6 +48,7 @@ function App() {
           <Route path="/" element={<Articles />}></Route>
           <Route path="/topics/:topic" element={<Articles />}></Route>
           <Route path="/article/:articleID" element={<SingleArticle />}></Route>
+          <Route path="/post-article" element={<PostArticle />}></Route>
           <Route path="/profile/:username" element={<ViewProfile />}></Route>
           <Route path="*" element={<ErrorPage />}></Route>
         </Routes>

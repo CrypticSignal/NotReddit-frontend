@@ -42,12 +42,28 @@ img {
   padding: 10px;
 }
 
-#sortMethodDiv {
+#postArticleSortMethod {
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
 }
 
-#sortMethodDiv label {
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.flexDirectionColumnCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#sortMethodDiv {
+  display: flex;
+  margin-left: auto;
+}
+
+#sortByLabel {
   display: flex;
   align-items: center;
 }
@@ -76,11 +92,13 @@ img {
 
 #bottomOfCard {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-#bottomOfCard i {
+/* #bottomOfCard i {
   margin-left: auto;
-}
+} */
 
 #cardVotes {
   font-size: smaller;

@@ -24,7 +24,7 @@ const ViewProfile = () => {
     if (!loggedInWithGoogle) {
       fetchUserDetails();
     }
-  }, [username]);
+  }, [loggedInWithGoogle, username]);
 
   return (
     <>
