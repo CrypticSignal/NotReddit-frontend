@@ -4,9 +4,11 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 
+const basename = window.location.pathname === "/" ? "/" : "/NotReddit-frontend";
+
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter basename="/NotReddit-frontend">
+    <BrowserRouter basename={basename}>
       <App />
     </BrowserRouter>
   </React.StrictMode>,
