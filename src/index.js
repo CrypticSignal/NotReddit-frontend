@@ -6,7 +6,7 @@ import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/NotReddit-frontend">
       <App />
     </BrowserRouter>
   </React.StrictMode>,
