@@ -45,16 +45,7 @@ const SingleArticle = () => {
 
   useEffect(() => {
     async function fetchArticleComments() {
-      let commentsArray = await getArticleComments(articleID);
-
-      commentsArray = commentsArray.filter(
-        (comment) => comment.comment_id !== commentAdded.comment_id
-      );
-
-      if (deletedCommentID !== commentAdded.comment_id) {
-        commentsArray.push(commentAdded);
-      }
-
+      const commentsArray = await getArticleComments(articleID);
       setComments(commentsArray.reverse());
 
       const commentIDToVotesInfo = {};
